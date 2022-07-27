@@ -11,7 +11,7 @@ contract CommunityNFT is CallistoNFT, IClassifiedNFT, OwnableClass{
     mapping (uint256 => string[]) public class_properties;
     mapping (uint256 => uint256)  public token_classes;
 
-    uint256 private nextClassIndex = 0;
+    uint256 public nextClassIndex = 0;
     uint256 public next_mint_id;
 
     constructor(string memory _name, string memory _symbol, uint256 _defaultFee) 
