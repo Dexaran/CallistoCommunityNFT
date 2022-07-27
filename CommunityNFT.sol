@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.12;
 
-import "./CallistoNFT.sol";
-import "./IClassifiedNFT.sol";
-import "./OwnableClass.sol";
+import "https://github.com/Dexaran/CallistoCommunityNFT/blob/main/CallistoNFT.sol";
+import "https://github.com/Dexaran/CallistoCommunityNFT/blob/main/IClassifiedNFT.sol";
+import "https://github.com/Dexaran/CallistoCommunityNFT/blob/main/OwnableNFTClass.sol";
 
 contract CommunityNFT is CallistoNFT, IClassifiedNFT, OwnableClass{
 
