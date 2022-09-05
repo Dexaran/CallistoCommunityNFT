@@ -33,7 +33,7 @@ mapping (uint256 => string[]) public class_properties;
         token_classes[_tokenID] = _tokenClass;
     }
 
-    function addNewTokenClass() internal
+    function _addNewTokenClass() internal
     {
         class_properties[nextClassIndex].push("");
         nextClassIndex++;
@@ -42,28 +42,28 @@ mapping (uint256 => string[]) public class_properties;
     function createTokenClass() public
     {
         class_owners[nextClassIndex] = msg.sender;
-        addNewTokenClass();
+        _addNewTokenClass();
     }
 
-    function mintNFT(uint256 _classId) public
+    function mintNFT(uint256 _classID) public
     {
-        if (!minting_permitted[_classId])
+        if (!minting_permitted[_classID])
         {
-            require(msg.sender == class_owners[_classId], "NFT: Only owner of the NFT is permitted to mint new tokens");
+            require(msg.sender == class_owners[_classID], "NFT: Only owner of the NFT is permitted to mint new tokens");
         }
-        mintWithClass(msg.sender, nftsCount, _classId);
+        mintWithClass(msg.sender, nftsCount, _classID);
         nftsCount++;
     }
 
-    function addTokenClassProperties(uint256 _classId, uint256 _propertiesCount) public onlyClassOwner(_classId)
+    function addTokenClassProperties(uint256 _classID, uint256 _propertiesCount) public onlyClassOwner(_classID)
     {
         for (uint i = 0; i < _propertiesCount; i++)
         {
-            class_properties[_classId].push("");
+            class_properties[_classID].push("");
         }
     }
 
-    function modifyClassProperty(uint256 _classID, uint256 _propertyID, string memory _content) public /* onlyOwner */ onlyExistingClasses(_classID)
+    function modifyClassProperty(uint256 _classID, uint256 _propertyID, string memory _content) public onlyClassOwner(_classID) onlyExistingClasses(_classID)
     {
         class_properties[_classID][_propertyID] = _content;
     }
@@ -73,7 +73,7 @@ mapping (uint256 => string[]) public class_properties;
         return class_properties[_classID][_propertyID];
     }
 
-    function addClassProperty(uint256 _classID) public /* onlyOwner */ onlyExistingClasses(_classID)
+    function addClassProperty(uint256 _classID) public onlyClassOwner(_classID) onlyExistingClasses(_classID)
     {
         class_properties[_classID].push("");
     }
@@ -104,7 +104,7 @@ mapping (uint256 => string[]) public class_properties;
         token_classes[tokenId] = classId;
     }
 
-    function appendClassProperty(uint256 _classID, uint256 _propertyID, string memory _content) public /* onlyOwner */ onlyExistingClasses(_classID)
+    function appendClassProperty(uint256 _classID, uint256 _propertyID, string memory _content) public onlyClassOwner(_classID) onlyExistingClasses(_classID)
     {
         class_properties[_classID][_propertyID] = string.concat(class_properties[_classID][_propertyID], _content);
     }
