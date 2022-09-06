@@ -45,6 +45,17 @@ mapping (uint256 => string[]) public class_properties;
         _addNewTokenClass();
     }
 
+    function createTokenClass(address _feeReceiver, uint256 _feePercentage) public
+    {
+        class_owners[nextClassIndex] = msg.sender;
+
+        Fee memory _newFee;
+        _newFee.feeReceiver = payable(_feeReceiver);
+        _newFee.feePercentage = _feePercentage;
+        feeLevels[uint32(nextClassIndex)] = _newFee;
+        _addNewTokenClass();
+    }
+
     function mintNFT(uint256 _classID) public
     {
         if (!minting_permitted[_classID])
