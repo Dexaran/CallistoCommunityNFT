@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.12;
 
-import "https://github.com/Dexaran/CallistoNFT/blob/main/ERC721Compatible/ERC721CallistoNFTHybrid.sol";
+import "https://github.com/Dexaran/CallistoCommunityNFT/blob/main/ERC721CallistoNFTmodification.sol";
 
 contract CommunityNFT is CallistoNFT {
     constructor(string memory name_, string memory symbol_, uint256 _defaultFee) CallistoNFT(name_, symbol_, _defaultFee) {
