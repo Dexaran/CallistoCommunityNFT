@@ -39,24 +39,23 @@ mapping (uint256 => string[]) public class_properties;
         nextClassIndex++;
     }
 
-    function createTokenClass() public
+    function createTokenClass(bool _minting_permitted) public
     {
         class_owners[nextClassIndex] = msg.sender;
+        minting_permitted[nextClassIndex] = _minting_permitted;
         //class_fee_levels[nextClassIndex] = 0;
 
         _addNewTokenClass();
     }
 
-    function createTokenClass(address _feeReceiver, uint256 _feePercentage) public
+    function createTokenClass(bool _minting_permitted, address _feeReceiver, uint256 _feePercentage) public
     {
-        class_owners[nextClassIndex] = msg.sender;
-
         Fee memory _newFee;
         _newFee.feeReceiver = payable(_feeReceiver);
         _newFee.feePercentage = _feePercentage;
         feeLevels[uint32(nextClassIndex)] = _newFee;
         
-        _addNewTokenClass();
+        createTokenClass(_minting_permitted);
     }
 
     function modifyClassFee(uint256 _classId, address _feeReceiver, uint256 _feePercentage) public onlyClassOwner(_classId)
