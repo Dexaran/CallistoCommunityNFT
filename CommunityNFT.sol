@@ -12,6 +12,7 @@ mapping (uint256 => string[]) public class_properties;
     mapping (uint256 => uint256)  public token_classes;
     mapping (uint256 => address)  public class_owners;
     mapping (uint256 => bool)     public minting_permitted;
+    mapping (string => uint256)   public class_names;
 
     uint256 private nextClassIndex = 0;
     uint256 public  nftsCount = 0; // Analogue of totalSupply but for NFT contract
@@ -39,8 +40,9 @@ mapping (uint256 => string[]) public class_properties;
         nextClassIndex++;
     }
 
-    function createTokenClass(bool _minting_permitted) public
+    function createTokenClass(string memory _name, bool _minting_permitted) public
     {
+        class_names[_name] = nextClassIndex;
         class_owners[nextClassIndex] = msg.sender;
         minting_permitted[nextClassIndex] = _minting_permitted;
         //class_fee_levels[nextClassIndex] = 0;
@@ -48,14 +50,19 @@ mapping (uint256 => string[]) public class_properties;
         _addNewTokenClass();
     }
 
-    function createTokenClass(bool _minting_permitted, address _feeReceiver, uint256 _feePercentage) public
+    function getClassID(string memory _name) public view returns (uint256)
+    {
+        return class_names[_name];
+    }
+
+    function createTokenClass(string memory _name, bool _minting_permitted, address _feeReceiver, uint256 _feePercentage) public
     {
         Fee memory _newFee;
         _newFee.feeReceiver = payable(_feeReceiver);
         _newFee.feePercentage = _feePercentage;
         feeLevels[uint32(nextClassIndex)] = _newFee;
         
-        createTokenClass(_minting_permitted);
+        createTokenClass(_name, _minting_permitted);
     }
 
     function modifyClassFee(uint256 _classId, address _feeReceiver, uint256 _feePercentage) public onlyClassOwner(_classId)
