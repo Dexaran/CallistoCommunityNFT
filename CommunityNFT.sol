@@ -42,6 +42,8 @@ mapping (uint256 => string[]) public class_properties;
     function createTokenClass() public
     {
         class_owners[nextClassIndex] = msg.sender;
+        //class_fee_levels[nextClassIndex] = 0;
+
         _addNewTokenClass();
     }
 
@@ -53,7 +55,16 @@ mapping (uint256 => string[]) public class_properties;
         _newFee.feeReceiver = payable(_feeReceiver);
         _newFee.feePercentage = _feePercentage;
         feeLevels[uint32(nextClassIndex)] = _newFee;
+        
         _addNewTokenClass();
+    }
+
+    function modifyClassFee(uint256 _classId, address _feeReceiver, uint256 _feePercentage) public onlyClassOwner(_classId)
+    {
+        Fee memory _newFee;
+        _newFee.feeReceiver = payable(_feeReceiver);
+        _newFee.feePercentage = _feePercentage;
+        feeLevels[uint32(_classId)] = _newFee;
     }
 
     function mintNFT(uint256 _classID) public
@@ -111,6 +122,10 @@ mapping (uint256 => string[]) public class_properties;
     
     function mintWithClass(address to, uint256 tokenId, uint256 classId)  internal onlyExistingClasses(classId)
     {
+        if(feeLevels[uint32(classId)].feeReceiver != address(0))
+        {
+            _mint(to, tokenId, uint32(classId));
+        }
         _mint(to, tokenId);
         token_classes[tokenId] = classId;
     }
