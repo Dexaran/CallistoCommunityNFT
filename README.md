@@ -4,4 +4,4 @@ Community NFT is a project of EthereumCommonwealth and Callisto Network that aim
 
 ## Deployment
 
-- Callisto mainnet: https://explorer.callisto.network/address/0x996257560554C6E9a9304007b58acdcaF107D66B/
+- Callisto mainnet: https://explorer.callisto.network/address/0x80651C74342F515C1327E20c16D696C5E25aD3dD/transactions
