@@ -8,7 +8,9 @@ contract CommunityNFT is CallistoNFT {
     constructor(string memory name_, string memory symbol_, uint256 _defaultFee) CallistoNFT(name_, symbol_, _defaultFee) {
     }
 
-mapping (uint256 => string[]) public class_properties;
+    event ClassCreated(string name, uint256 id);
+
+    mapping (uint256 => string[]) public class_properties;
     mapping (uint256 => uint256)  public token_classes;
     mapping (uint256 => address)  public class_owners;
     mapping (uint256 => bool)     public minting_permitted;
@@ -46,13 +48,10 @@ mapping (uint256 => string[]) public class_properties;
         class_owners[nextClassIndex] = msg.sender;
         minting_permitted[nextClassIndex] = _minting_permitted;
         //class_fee_levels[nextClassIndex] = 0;
+        emit ClassCreated(_name, nextClassIndex);
 
         _addNewTokenClass();
-    }
 
-    function getClassID(string memory _name) public view returns (uint256)
-    {
-        return class_names[_name];
     }
 
     function createTokenClass(string memory _name, bool _minting_permitted, address _feeReceiver, uint256 _feePercentage) public
@@ -63,6 +62,11 @@ mapping (uint256 => string[]) public class_properties;
         feeLevels[uint32(nextClassIndex)] = _newFee;
         
         createTokenClass(_name, _minting_permitted);
+    }
+
+    function getClassID(string memory _name) public view returns (uint256)
+    {
+        return class_names[_name];
     }
 
     function modifyClassFee(uint256 _classId, address _feeReceiver, uint256 _feePercentage) public onlyClassOwner(_classId)
