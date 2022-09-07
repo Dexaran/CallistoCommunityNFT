@@ -44,6 +44,11 @@ contract CommunityNFT is CallistoNFT {
 
     function createTokenClass(string memory _name, bool _minting_permitted) public
     {
+        if(class_names[_name] != 0)
+        {
+            // Registering a name that is already taken is not allowed
+            revert();
+        }
         class_names[_name] = nextClassIndex;
         class_owners[nextClassIndex] = msg.sender;
         minting_permitted[nextClassIndex] = _minting_permitted;
