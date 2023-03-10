@@ -1,8 +1,4 @@
-// SPDX-License-Identifier: GPL
 
-pragma solidity ^0.8.12;
-
-import "https://github.com/Dexaran/CallistoCommunityNFT/blob/main/ERC721CallistoNFTmodification.sol";
 
 contract CommunityNFT is CallistoNFT {
     constructor(string memory name_, string memory symbol_, uint256 _defaultFee) CallistoNFT(name_, symbol_, _defaultFee) {
@@ -18,6 +14,13 @@ contract CommunityNFT is CallistoNFT {
 
     uint256 private nextClassIndex = 0;
     uint256 public  nftsCount = 0; // Analogue of totalSupply but for NFT contract
+
+    /// TODO
+    /// Add totalSupply for each class
+    /// Add properties for individual token
+    /// Add configuration settings and access restriction when creating class of new NFTs
+    /// Add property modification for newly minted tokens
+    /// Add minting an NFT with template
 
     modifier onlyExistingClasses(uint256 classId)
     {
